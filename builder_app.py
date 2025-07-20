@@ -121,7 +121,7 @@ def summarize_with_gemini(text, prompt_template):
         response = model.generate_content(prompt)
         return response.text if response.text else None
     except Exception as e:
-        st.error(f"Gemini API Error: {e}")
+        st.error(f" API Error: {e}")
         return None
 
 
