@@ -154,8 +154,7 @@ def main():
                     # pdf_path = save_as_pdf(resume, "generated_resume.pdf")
 
                     st.download_button("📄 Download as DOCX", data=open(docx_path, "rb"), file_name="generated_resume.docx")
-                    st.download_button("📄 Download as TXT", data=resume, file_name="generated_resume.txt")
-
+                   
 
                 else:
                     st.error("Resume generation failed.")
@@ -186,7 +185,7 @@ def main():
                         # pdf_path = save_as_pdf(improved, "improved_resume.pdf")
 
                         st.download_button("📄 Download as DOCX", data=open(docx_path, "rb"), file_name="improved_resume.docx")
-                        st.download_button("📄 Download as TXT", data=improved, file_name="improved_resume.txt")
+                       
 
                     else:
                         st.error("Improvement failed.")
