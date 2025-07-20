@@ -52,25 +52,7 @@ def clean_text(text):
     # Normalize Unicode and remove unsupported characters for FPDF
     return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
 
-# def save_as_docx(text, filename="resume.docx"):
-#     doc = Document()
-#     for line in text.split('\n'):
-#         doc.add_paragraph(line.strip())
-#     doc.save(filename)
-#     return filename
 
-# def save_as_pdf(text, filename="resume.pdf"):
-#     pdf = FPDF()
-#     pdf.add_page()
-#     pdf.set_auto_page_break(auto=True, margin=15)
-#     pdf.set_font("Arial", size=12)
-
-#     cleaned_text = clean_text(text)
-#     for line in cleaned_text.split('\n'):
-#         pdf.multi_cell(0, 10, line.strip())
-    
-#     pdf.output(filename)
-#     return filename
 
 # ---------- Markdown to HTML Converter ----------
 def markdown_to_html(text):
@@ -107,55 +89,14 @@ def save_as_docx(text, filename="resume.docx"):
     doc.save(filename)
     return filename
 
-# # ---------- Save as PDF ----------
-# def save_as_pdf(text, filename="resume.pdf"):
-#     html = markdown_to_html(text)
 
-#     output_path = f"{filename}"
-#     HTML(string=html).write_pdf(output_path)
-#     return output_path
 
 
 
 def extract_text_from_file(file):
     try:
-        if file.name.endswith(".pdf"):
-            text = ""
-            pdf_bytes = file.read()
-            if not pdf_bytes:
-                st.error("Error: Uploaded PDF is empty.")
-                return None
-            try:
-                reader = PdfReader(BytesIO(pdf_bytes))
-                for page in reader.pages:
-                    t = page.extract_text()
-                    if t:
-                        text += t + "\n\n"
-            except:
-                pass
-            if not text:
-                try:
-                    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-                    for page in doc:
-                        t = page.get_text("text")
-                        if t:
-                            text += t + "\n\n"
-                except:
-                    pass
-            if not text:
-                try:
-                    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-                    for page in doc:
-                        pix = page.get_pixmap()
-                        img_bytes = pix.tobytes("png")
-                        lang = detect_language(read_image(BytesIO(img_bytes), 'en'))
-                        text += read_image(BytesIO(img_bytes), lang) + "\n\n"
-                except Exception as e:
-                    st.error(f"OCR failed: {e}")
-                    return None
-            return text
-
-        elif file.name.endswith(".txt"):
+ 
+        if file.name.endswith(".txt"):
             return file.read().decode("utf-8")
 
         elif file.name.endswith(".docx"):
@@ -214,7 +155,6 @@ def main():
                     # pdf_path = save_as_pdf(resume, "generated_resume.pdf")
 
                     st.download_button("📄 Download as DOCX", data=open(docx_path, "rb"), file_name="generated_resume.docx")
-                    # st.download_button("📄 Download as PDF", data=open(pdf_path, "rb"), file_name="generated_resume.pdf")
                     st.download_button("📄 Download as TXT", data=resume, file_name="generated_resume.txt")
 
 
@@ -247,7 +187,6 @@ def main():
                         # pdf_path = save_as_pdf(improved, "improved_resume.pdf")
 
                         st.download_button("📄 Download as DOCX", data=open(docx_path, "rb"), file_name="improved_resume.docx")
-                        # st.download_button("📄 Download as PDF", data=open(pdf_path, "rb"), file_name="improved_resume.pdf")
                         st.download_button("📄 Download as TXT", data=improved, file_name="improved_resume.txt")
 
                     else:
