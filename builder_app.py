@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from langdetect import detect
 import easyocr
 import numpy as np
-import fitz
 from io import BytesIO
 from fpdf import FPDF
 from docx import Document
